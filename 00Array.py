@@ -90,3 +90,25 @@ class Solution:
 Solution().productExceptSelf([1,2,3,4])
 
 # %%
+# 189. Rotate Array
+
+class Solution:
+    def rotate(self, nums: list[int], k: int) -> None:
+        n = len(nums)
+        k = k % n
+        self.reverse(nums, 0, n-1)
+        self.reverse(nums, 0, k-1)
+        self.reverse(nums, k, n-1)
+
+    def reverse(self, nums, left, right):
+        while left < right:
+            one = nums[left]
+            nums[left] = nums[right]
+            nums[right] = one
+            left += 1
+            right -= 1
+
+
+
+
+# %%
