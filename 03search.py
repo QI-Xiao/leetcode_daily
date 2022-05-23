@@ -263,7 +263,7 @@ class Solution:
             if arr[mid] < arr[mid+1]:
                 left = mid+1
             else:
-                right = mid-1
+                right = mid
 
         return left
 
