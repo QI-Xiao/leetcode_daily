@@ -7,9 +7,7 @@ def bubbleSort(array):
     for i in range(len(array)-1):
         for j in range(0, len(array)-i-1):
             if array[j] > array[j+1]:
-                temp = array[j]
-                array[j] = array[j+1]
-                array[j+1] = temp
+                array[j], array[j+1] = array[j+1], array[j]
         print(i, j, array)
 
 data = [45, 11, 0, -2, -9]
@@ -273,5 +271,118 @@ class Solution:
 
 nums = [-2,3,-5]
 Solution().sortArray(nums)
+
+# %%
+# Counting Sort
+
+def countingSort(array):
+    size = len(array)
+    output = [0] * size
+
+    count = [0] * 10
+
+    for i in range(size):
+        count[array[i]] += 1
+    
+    for i in range(1,10):
+        count[i] += count[i-1]
+
+    # print(array)
+    # print(count)
+    # print(output)
+    # print()
+
+    i = size - 1
+    while i >= 0:
+        # print(array[i], count[array[i]], count[array[i]]-1)
+        output[count[array[i]] - 1] = array[i]
+        count[array[i]] -= 1
+        i -= 1
+    
+    # print(output)
+    # print(count)
+
+    for i in range(0, size):
+        array[i] = output[i]
+
+data = [4, 2, 2, 8, 3, 3, 1]
+countingSort(data)
+print("Sorted Array in Ascending Order: ")
+print(data)
+
+
+# %%
+# Radix Sort Algorithm
+
+def countingSort(array, place):
+    size = len(array)
+    output = [0] * size
+    count = [0] * 10
+
+    for i in range(size):
+        index = array[i] // place
+        count[index % 10] += 1
+    
+    for i in range(1, 10):
+        count[i] += count[i-1]
+
+    i = size - 1
+    while i >= 0:
+        index = array[i] // place
+        output[count[index%10]-1] = array[i]
+        count[index%10] -= 1
+        i -= 1
+    
+    for i in range(size):
+        array[i] = output[i]
+    
+
+def radixSort(array):
+    max_element = max(array)
+
+    place = 1
+
+    # countingSort(array, place)
+    # return
+
+    while max_element // place > 0:
+        countingSort(array, place)
+        place *= 10
+
+
+data = [121, 432, 564, 23, 1, 45, 788]
+radixSort(data)
+print(data)
+
+
+# %%
+# Bucket Sort Algorithm
+
+def bucketSort(array):
+    bucket = []
+
+    # Create empty buckets
+    for i in range(len(array)):
+        bucket.append([])
+
+    for j in array:
+        index_b = int(10 * j)
+        bucket[index_b].append(j)
+    
+    for i in range(len(array)):
+        bucket[i] = sorted(bucket[i])
+
+    k = 0
+    for i in range(len(array)):
+        for j in range(len(bucket[i])):
+            array[k] = bucket[i][j]
+            k += 1
+    
+    return array
+
+array = [.42, .32, .33, .52, .37, .47, .51]
+print("Sorted Array in descending order is")
+print(bucketSort(array))
+
 
 # %%
