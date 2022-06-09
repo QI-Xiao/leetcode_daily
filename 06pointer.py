@@ -120,14 +120,70 @@ Solution().maxArea(height)
 
 class Solution:
     def triangleNumber(self, nums: list[int]) -> int:
+        nums.sort()
+        left = 0
+        right = 1
+        i = 2
+        sum = 0
+        while i < len(nums):
 
+            if nums[left] + nums[right] > nums[i]:
+                sum += right - left
+                if right - left == 1:
+                    i += 1
+                    right = i - 1
+                    left = 0
+                else:
+                    right -= 1
+            else:
+                if right - left == 1:
+                    i += 1
+                    right = i - 1
+                    left = 0
+                else:
+                    left += 1
+        return sum
+    
+    def triangleNumber(self, nums: list[int]) -> int:
+        nums.sort()
+        sum = 0
+        for i in range(2, len(nums)):
+            left = 0
+            right = i - 1
 
+            while left < right:
+                if nums[left] + nums[right] > nums[i]:
+                    sum += right - left
+                    right -= 1
+                else:
+                    left += 1
+
+        return sum
+nums = [24,3,82,22,35,84,19]
+Solution().triangleNumber(nums)
 
 # %%
 # 15. 3Sum
 class Solution:
     def threeSum(self, nums: list[int]) -> list[list[int]]:
-        
+        nums.sort()
+        if len(nums) < 3:
+            return []
+
+        lst = []
+        for i in range(2, len(nums)):
+            left = 0
+            right = i - 1
+            while left < right:
+                val_sum = nums[left] + nums[right] + nums[i]
+                if val_sum > 0:
+                    right -= 1
+                elif val_sum < 0:
+                    left += 1
+                else:
+                    lst.append([nums[left], nums[right], nums[i]])
+                    left += 1
+        return lst
 
 nums = [-1,0,1,2,-1,-4]
 Solution().threeSum(nums)

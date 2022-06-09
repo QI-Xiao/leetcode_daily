@@ -94,8 +94,50 @@ class Solution:
 Solution().myPow(2.00000, 2)
 
 #%%
+# 287. Find the Duplicate Number
+
+class Solution:
+    def findDuplicate2(self, nums: list[int]) -> int:
+        while True:
+            index = nums[0]
+            if nums[0] == nums[index]:
+                return nums[0]
+            nums[0], nums[index] = nums[index], nums[0]
+
+    def findDuplicate(self, nums):
+        low = 1
+        high = len(nums)-1
+        
+        while low < high:
+            mid = low+(high-low)//2
+            count = 0
+            for i in nums:
+                if i <= mid:
+                    count+=1
+            if count <= mid:
+                low = mid+1
+            else:
+                high = mid
+        return low
+nums = [1,3,4,2,2]
+Solution().findDuplicate(nums)
+
+# %%
+# 1300. Sum of Mutated Array Closest to Target
+
+# class Solution:
+#     def findBestValue(self, arr: list[int], target: int) -> int:
+#         # len_arr = 
+#         num = (target-sum(arr))/len(arr)
+#         if num > 0:
+
+#         arr = [i for i in arr if i < num]
+        
 
 
+# arr = [4,9,3]
+# target = 10
+# Solution().findBestValue(arr, target)
 
 #%%
 from random import shuffle
