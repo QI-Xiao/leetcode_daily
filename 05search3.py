@@ -106,3 +106,112 @@ nums2 = [9,4,9,8,4]
 Solution().intersection(nums1, nums2)
 
 # %%
+# 1011. Capacity To Ship Packages Within D Days
+
+class Solution:
+    def shipWithinDays(self, weights: list[int], days: int) -> int:
+        cap_min = max(weights)
+        cap_max = sum(weights)
+
+        while cap_min < cap_max:
+            mid = (cap_min+cap_max)//2
+            days_need = 1
+            days_cap = 0
+
+            for w in weights:
+                if days_cap + w > mid:
+                    days_need += 1
+                    days_cap = 0
+                days_cap += w
+
+            # print(cap_min, cap_max, days_need,days,days_cap)
+
+            if days_need <= days:
+                cap_max = mid
+            else:
+                cap_min = mid+1
+
+        return cap_min
+
+# weights = [1,2,3,4,5,6,7,8,9,10]
+# days = 5
+weights = [3,3,3,3,3,3]
+days = 2
+Solution().shipWithinDays(weights, days)
+
+# %%
+# 1482. Minimum Number of Days to Make m Bouquets
+
+class Solution:
+    def minDays(self, bloomDay: list[int], m: int, k: int) -> int:
+        if m * k > len(bloomDay):
+            return -1
+
+        left = min(bloomDay)
+        right = max(bloomDay)
+
+        while left < right:
+            mid = (left+right)//2
+            m_now = 0
+            k_now = 0
+
+            for b in bloomDay:
+                if b <= mid:
+                    k_now += 1
+                    if k_now == k:
+                        k_now = 0
+                        m_now += 1
+                else:
+                    k_now = 0
+            print(left, right, mid, m_now)
+
+            if m_now < m:
+                left = mid + 1
+            else:
+                right = mid
+            
+        return left
+
+class Solution2:
+    def canMake(self, bloomDay, days, m, k):
+        count = 0
+        flower = 0
+        for i in range(len(bloomDay)):
+            if bloomDay[i] <= days:
+                flower += 1
+                if flower == k:
+                    count += 1
+                    flower = 0
+            else:
+                flower = 0
+        return count >= m
+
+    def minDays(self, bloomDay: list[int], m: int, k: int) -> int:
+        if m > len(bloomDay) / k:
+            return -1
+
+        left, right = min(bloomDay), max(bloomDay)
+
+        while left < right:
+            mid = left + (right - left) // 2
+            if not self.canMake(bloomDay, mid, m, k):
+                left = mid + 1
+            else:
+                right = mid
+
+        return left
+
+bloomDay = [1,10,3,10,2]
+m = 3
+k = 1
+
+bloomDay = [7,7,7,7,12,7,7]
+m = 2
+k = 3
+
+# bloomDay = [1,10,2,9,3,8,4,7,5,6]
+# m = 4
+# k = 2
+
+Solution().minDays(bloomDay, m, k)
+# %%
